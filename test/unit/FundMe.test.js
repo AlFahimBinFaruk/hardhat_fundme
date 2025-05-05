@@ -53,11 +53,22 @@ describe("FundMe",function(){
 
     // Withdraw testing
     describe("withdraw",function(){
-        it("Only allows the owner of the contract to withdraw fund",async ()=>{
+        it("Only allows the owner of the contract to withdraw fund,we expect it to fail",async ()=>{
             const accounts=await ethers.getSigners();
             const connectedAccount=await fundMe.connect(accounts[1]);
             
             await expect(connectedAccount.withdraw()).to.be.revertedWithCustomError(fundMe,"NotOwner");
         })
+
+        it("Only allows the owner of the contract to withdraw fund,we expect it to pass",async function(){
+            const signer = await ethers.provider.getSigner(); // default deployer
+    
+            const withdrawTx = await fundMe.connect(signer).withdraw();
+            await withdrawTx.wait(1);
+            // Check balance
+            const finalBalance = await ethers.provider.getBalance(await fundMe.getAddress());
+            assert.equal(finalBalance.toString(),"0");
+        })
+        
     });
 })
