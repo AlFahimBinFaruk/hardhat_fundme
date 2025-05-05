@@ -19,6 +19,16 @@ contract FundMe{
 
     address public immutable i_owner;
     AggregatorV3Interface public priceFeedInterface;
+
+
+
+    // modifiers
+    modifier onlyOwner{
+        if(msg.sender!=i_owner){
+            revert NotOwner();
+        }
+        _;
+    }
     
 
     // this will only run once when the contract is being deployed.
@@ -35,13 +45,6 @@ contract FundMe{
         funderToAmount[msg.sender]+=msg.value;
         funders.push(msg.sender);
     }
-
-    modifier onlyOwner{
-        if(msg.sender!=i_owner){
-            revert NotOwner();
-        }
-        _;
-    }
     
 
     function withdraw() public onlyOwner{
@@ -51,34 +54,23 @@ contract FundMe{
             funderToAmount[funder]=0;
         }
         funders=new address[](0);
-
-        // ******* transfering the fund ******** //
-
-        // - transfer
-        // payable(msg.sender).transfer(address(this).balance);
-
-        // - send
-        // bool sendSuccess = payable(msg.sender).send(address(this).balance);
-        // require(sendSuccess, "Send failed");
-
-        // - call
+        
+        // withdrawing.
         (bool callSuccess,)=payable(msg.sender).call{value:address(this).balance}("");
         require(callSuccess,"Withdrawal failed!");
     }
 
 
-    
 
-
-
+    // function name don't match.
     fallback() external payable{
         fund();
     }
 
+    // didn't provide any function.
     receive() external payable{
         fund();
     }
-
 
 
     // Getter functions
