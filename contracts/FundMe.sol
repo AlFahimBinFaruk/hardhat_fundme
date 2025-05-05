@@ -12,7 +12,7 @@ contract FundMe{
 
     using PriceConverter for uint256;
 
-    uint256 public constant MINIMUM_USD=50*1e18;
+    uint256 public constant MINIMUM_USD=1*1e18;
 
     mapping(address=>uint256) private funderToAmount;
     address[] funders;
@@ -67,9 +67,7 @@ contract FundMe{
     }
 
 
-    function getAddressToAmountFunded(address fundingAddress) public view returns (uint256){
-        return funderToAmount[fundingAddress];
-    }
+    
 
 
 
@@ -81,4 +79,18 @@ contract FundMe{
         fund();
     }
 
+
+
+    // Getter functions
+    function getAddressToAmountFunded(address fundingAddress) public view returns (uint256){
+        return funderToAmount[fundingAddress];
+    }
+
+    function getFunder(uint256 index) public view returns(address){
+        return funders[index];
+    }
+
+    function getPriceFeedInterface() public view returns(AggregatorV3Interface){
+        return priceFeedInterface;
+    }
 }

@@ -22,7 +22,8 @@ module.exports = {
     sepolia:{
       url:SEPOLIA_RPC_URL,
       accounts:[PRIVATE_KEY],
-      chainId:11155111
+      chainId:11155111,
+      blockConfirmations: 6
     }
   },
 
@@ -33,7 +34,8 @@ module.exports = {
   namedAccounts:{
     deployer:{
       default:0,
-      1:0
+      1:0,
+      11155111:0
     }
   },
 
