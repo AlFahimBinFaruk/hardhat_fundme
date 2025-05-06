@@ -36,7 +36,7 @@ describe("FundMe",function(){
     // Funding testing
     describe("fund",function(){
         it("Fails if you dont send enough eth",async()=>{
-            await expect(fundMe.fund()).to.be.revertedWith("You didn't send enough eth.");
+            await expect(fundMe.fund()).to.be.revertedWithCustomError(fundMe,"NotEnoughETH");
         });
 
         it("Updated amount funded in DS", async()=>{
