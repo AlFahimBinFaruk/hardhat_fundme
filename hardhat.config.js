@@ -2,6 +2,7 @@ require("hardhat-deploy");
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-ethers");
 require("@nomicfoundation/hardhat-verify");
+require("hardhat-gas-reporter");
 require("dotenv").config();
 
 
@@ -39,6 +40,10 @@ module.exports = {
     }
   },
 
-
-
+  gasReporter:{
+    enabled:true,
+    currency:"USD",
+    outputFile:"gas-report.txt",
+    noColors:true
+  }
 };
